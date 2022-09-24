@@ -14,7 +14,8 @@ class LoginScreen extends StatelessWidget
 
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
+      body: Center(
+        child: SingleChildScrollView(
         child: Center(
           child: Padding(padding: EdgeInsets.all(20),
       child: Column(
@@ -67,6 +68,7 @@ class LoginScreen extends StatelessWidget
       ),
       )
         ),
+      )
       )
     );
     throw UnimplementedError();
