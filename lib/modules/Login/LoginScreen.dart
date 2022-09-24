@@ -1,10 +1,16 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/modules/Login/cubit/cubit.dart';
+import 'package:shop/modules/Login/cubit/states.dart';
 import 'package:shop/modules/Register/RegisterScreen.dart';
 import 'package:shop/shared/components/components.dart';
 
 class LoginScreen extends StatelessWidget
 {
+  var FormKey=GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
 
@@ -12,13 +18,19 @@ class LoginScreen extends StatelessWidget
     var PasswordController=TextEditingController();
 
 
-    return Scaffold(
+    return BlocProvider(
+      create: (context)=>ShopLoginCubit(),
+      child: BlocConsumer<ShopLoginCubit,ShopLoginStates>(
+        builder: (context,state){
+          return Scaffold(
       appBar: AppBar(),
       body: Center(
         child: SingleChildScrollView(
         child: Center(
           child: Padding(padding: EdgeInsets.all(20),
-      child: Column(
+      child: Form(
+        key:FormKey,
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Login",style: TextStyle(fontFamily: 'Cairo-Black',fontSize: 40),),
@@ -39,7 +51,7 @@ class LoginScreen extends StatelessWidget
                 SizedBox(height:10),
 
                 defaultTextFormField(
-                  controller: EmailController,
+                  controller: PasswordController,
                    type: TextInputType.visiblePassword,
                     validate: (val){
                       if(val.isEmpty)
@@ -47,14 +59,36 @@ class LoginScreen extends StatelessWidget
                         return "Please enter your password.";
                       }
                     },
+                    onSubmit: (){
+                      if(FormKey.currentState!.validate())
+                          {
+                             ShopLoginCubit.get(context).UserLogin(email: EmailController.text, password: PasswordController.text);
+
+                          }
+                    },
                      label: "Password",
                       prefix: Icons.lock_outline,
-                      suffix: Icons.remove_red_eye_outlined,
-                      suffixPressed: (){}),
+                      suffix: ShopLoginCubit.get(context).suffix,
+                      isPassword: ShopLoginCubit.get(context).isPassword,
+                      suffixPressed: (){
+                        ShopLoginCubit.get(context).changeSuffix();
+                      }),
 
                       SizedBox(height:20),
 
-                      defaultButton(function: (){}, text: "Login"),
+                      ConditionalBuilder(
+                      condition: state is !ShoploginLoadingState,
+                       builder: (context)=>defaultButton(
+                        function: (){
+                          if(FormKey.currentState!.validate())
+                          {
+                             ShopLoginCubit.get(context).UserLogin(email: EmailController.text, password: PasswordController.text);
+
+                          }
+                         
+                        },
+                         text: "Login"),
+                        fallback: (context)=>Center(child: CircularProgressIndicator(),)),
 
                       SizedBox(height:10),
                       Row(
@@ -65,12 +99,14 @@ class LoginScreen extends StatelessWidget
                         ],
                       ),
         ],
-      ),
+      ),)
       )
         ),
       )
       )
     );
+        },
+        listener: (context,state){}),);
     throw UnimplementedError();
   }
 
