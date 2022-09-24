@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/modules/Register/RegisterScreen.dart';
 import 'package:shop/shared/components/components.dart';
 
 class LoginScreen extends StatelessWidget
@@ -13,7 +14,9 @@ class LoginScreen extends StatelessWidget
 
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(padding: EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(padding: EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,15 +56,17 @@ class LoginScreen extends StatelessWidget
                       defaultButton(function: (){}, text: "Login"),
 
                       SizedBox(height:10),
-
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Don/'t have an account?"),
-                          defaultTextButton(ontap: (){}, text: 'Register now!'),
+                          TextButton(onPressed: (){navigateTo(context,RegisterScreen());}, child: Text("Register now!"))
                         ],
                       ),
         ],
       ),
+      )
+        ),
       )
     );
     throw UnimplementedError();
