@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/models/LoginModel.dart';
 import 'package:shop/modules/Login/cubit/states.dart';
 import 'package:shop/shared/network/remote/dio_helper.dart';
 
@@ -14,6 +15,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>
 
   IconData suffix=Icons.remove_red_eye_outlined;
   bool isPassword=true;
+  LoginModel? loginmodel;
 
   void changeSuffix()
   {
@@ -35,8 +37,12 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>
         'email':email,
         'password':password
       }).then((value) {
-        print(value.data);
-        emit(ShopLoginSuccessState());
+        loginmodel=LoginModel.fromJson(value.data);
+        // print(loginmodel!.message);
+        // print(loginmodel!.status);
+        // print(loginmodel!.data!.email);
+        //print(value.data['message']);
+        emit(ShopLoginSuccessState(loginmodel!));
       }).catchError((onError){
         emit(ShopLoginErrorState(onError.toString()));
       });
