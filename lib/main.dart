@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/modules/onBoarding.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: onBoardingScreen(),
+      home: LoginScreen(),
     );
   }
 }
