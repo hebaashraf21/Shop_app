@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop/styles/colors.dart';
 
+import '../../modules/Login/LoginScreen.dart';
+import '../network/local/cache_helper.dart';
+
 
 
 Future<bool?> showToast({
@@ -37,7 +40,10 @@ Color chooseToastColor(ToastState state){
 
 
 
-
+void printFullText(String text) {
+  final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+  pattern.allMatches(text).forEach((match) => print(match.group(0)));
+}
 
 void navigateTo(context,widget)
 {
@@ -47,6 +53,17 @@ void navigateTo(context,widget)
 void navigateAndFinish(context,widget)
 {
   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>widget), (route) => false);
+}
+
+
+void SignOut(context)
+{
+  CacheHelper.RemoveData(key: 'token').then((value) {
+            if(value)
+            {
+              navigateAndFinish(context, LoginScreen());
+            }
+          });
 }
 
 Widget defaultTextFormField({

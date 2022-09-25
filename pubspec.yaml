@@ -44,6 +44,7 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   fluttertoast: ^8.0.9
   tbib_toast: ^0.0.2
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

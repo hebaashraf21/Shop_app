@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop/models/LoginModel.dart';
-import 'package:shop/modules/Layout/ShopHome.dart';
+import 'package:shop/modules/Layout/HomeScreen.dart';
 import 'package:shop/modules/Login/cubit/cubit.dart';
 import 'package:shop/modules/Login/cubit/states.dart';
 import 'package:shop/modules/Register/RegisterScreen.dart';
@@ -122,12 +122,12 @@ class LoginScreen extends StatelessWidget {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.SUCCESS);
 
-            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, ShopHome()));    
+            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, HomeScreen()));    
 
           } else {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.ERROR);
-                CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, ShopHome())); 
+                CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, HomeScreen())); 
           }
         }
       }),
