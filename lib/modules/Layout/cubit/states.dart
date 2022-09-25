@@ -17,3 +17,11 @@ class ShopHomeErrorState extends ShopStates
   ShopHomeErrorState(this.err);
 }
 
+
+class ShopHomeCategoriesSuccessState extends ShopStates{}
+
+class ShopHomeCategoriesErrorState extends ShopStates{}
+
+class ShopChangeFavoritesSuccessState extends ShopStates{}
+
+class ShopChangeFavoritesErrorState extends ShopStates{}

@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create:(context)=> ShopCubit()..GetHomeData()
+        BlocProvider(create:(context)=> ShopCubit()..GetHomeData()..GetCategoriesData()
 
         ),
       ],

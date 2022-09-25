@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/models/CategoriesModel.dart';
 import 'package:shop/models/HomeModel.dart';
 import 'package:shop/modules/Layout/cubit/cubit.dart';
 import 'package:shop/modules/Layout/cubit/states.dart';
@@ -18,8 +19,8 @@ class ProductsScreen extends StatelessWidget
       builder: (context,state){
         var cubit=ShopCubit.get(context);
         return ConditionalBuilder(
-          condition: cubit.homemodel!=null,
-           builder: (context)=>ProductsBuilder(cubit.homemodel),
+          condition: cubit.homemodel!=null &&cubit.categoriesmodel!=null,
+           builder: (context)=>ProductsBuilder(cubit.homemodel,cubit.categoriesmodel,context),
             fallback:(context)=>Center(child: CircularProgressIndicator(),));
       },
 
@@ -27,11 +28,12 @@ class ProductsScreen extends StatelessWidget
     throw UnimplementedError();
   }
 
-  Widget ProductsBuilder(HomeModel? model)
+  Widget ProductsBuilder(HomeModel? model, CategoriesModel? categorymodel,context)
   {
     return SingleChildScrollView(
       
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CarouselSlider(
           items: model!.data!.banners.map((e) => Image(image: NetworkImage('${e.image}'),width: double.infinity,fit: BoxFit.cover,)).toList() ,
@@ -49,7 +51,39 @@ class ProductsScreen extends StatelessWidget
 
            )),
 
+           SizedBox(height:10),
+
+
+           Padding(padding: EdgeInsets.symmetric(horizontal: 15),
+           child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Categories",style: TextStyle(fontSize: 25),),
+
+           SizedBox(height:10),
+
+           Container(
+            height: 100,
+            child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder:(context,index)=> BuildCategoryItem(categorymodel.data!.data[index]),
+             separatorBuilder: (context,index)=>SizedBox(width: 15),
+              itemCount: categorymodel!.data!.data.length),
+           ),
+
+          
+           
            SizedBox(height:20),
+
+           Text("New Products",style: TextStyle(fontSize: 25),),
+
+           SizedBox(height:20),
+            ],
+           ),
+           ),
+
 
            Container(
             color: Colors.grey[300],
@@ -61,7 +95,7 @@ class ProductsScreen extends StatelessWidget
               crossAxisSpacing: 1,
               childAspectRatio: 1/1.58,
               children: List.generate(model.data!.products.length,
-               (index) => ProductsGrid(model.data!.products[index])),
+               (index) => ProductsGrid(model.data!.products[index],context)),
               ),
            )
 
@@ -71,7 +105,27 @@ class ProductsScreen extends StatelessWidget
     );
   }
 
-  Widget ProductsGrid(ProductModel model)
+
+  Widget BuildCategoryItem(DataModel model)
+  {
+    return  Stack(
+            alignment: AlignmentDirectional.bottomEnd,
+            
+            children: [
+              Image(image: NetworkImage("${model.image}",),height: 100,width: 100,fit: BoxFit.cover,),
+              Container(
+                width: 100,
+                color: Colors.black.withOpacity(0.8),
+                child:Text("${model.name}",style: TextStyle(color: Colors.white,overflow: TextOverflow.ellipsis,),maxLines: 1,textAlign: TextAlign.center,)
+                
+              )
+
+            ],
+           );
+
+  }
+
+  Widget ProductsGrid(ProductModel model,context)
   {
     return Container(
       color: Colors.white,
@@ -109,7 +163,15 @@ class ProductsScreen extends StatelessWidget
                      if(model.discount!=0)
                        Text("${model.old_price.round()}",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(height: 1.3,color: Colors.grey,fontSize: 12,decoration: TextDecoration.lineThrough),),
                      Spacer(),
-                     IconButton(onPressed: (){}, icon: Icon(Icons.favorite_border),padding: EdgeInsets.zero,)
+                     IconButton(
+                      onPressed: (){
+                        //print(model.id);
+                        },
+                       icon: CircleAvatar(
+                        radius: 15,
+                        backgroundColor:(ShopCubit.get(context).isfavorite![model.id]==true)?defaultColor:Colors.grey,
+                        child: Icon(Icons.favorite_border,color: Colors.white,size:14),
+                       ))
                     ],
                   )
                     ],

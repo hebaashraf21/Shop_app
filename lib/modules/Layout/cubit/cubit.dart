@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/models/CategoriesModel.dart';
 import 'package:shop/models/HomeModel.dart';
 import 'package:shop/modules/Layout/cubit/states.dart';
 import 'package:shop/modules/categories/CategoriesScreen.dart';
@@ -21,6 +22,9 @@ class ShopCubit extends Cubit<ShopStates>
   int CurrentIndex=0;
 
   HomeModel? homemodel;
+  CategoriesModel? categoriesmodel;
+
+  Map<int,bool>?isfavorite={};
 
   List<Widget>BottomScreens=[ProductsScreen(),CategoriesScreen(),FavouritesScreen(),SettingsScreen()];
 
@@ -39,6 +43,14 @@ class ShopCubit extends Cubit<ShopStates>
       {
         emit(ShopHomeSuccessState());
         homemodel = HomeModel.fromJson(value.data);
+
+        homemodel!.data!.products.forEach((element)
+        {
+          isfavorite!.addAll({element.id!:element.in_favorites!});
+          
+        });
+
+        //print(isfavorite);
         //print('Home '+homemodel!.data!.banners[0].id.toString());
       }).catchError(
         (onError)
@@ -46,5 +58,39 @@ class ShopCubit extends Cubit<ShopStates>
           print(onError.toString());
           emit(ShopHomeErrorState(onError));
         });
+  }
+
+  void GetCategoriesData()
+  {
+    emit(ShopHomeLoadingState());
+
+    DioHelper.getdata(url: GET_CATEGORIES, token: token).then(
+      (value) 
+      {
+        emit(ShopHomeCategoriesSuccessState());
+        categoriesmodel = CategoriesModel.fromJson(value.data);
+        //print('Home '+homemodel!.data!.banners[0].id.toString());
+      }).catchError(
+        (onError)
+        {
+          print(onError.toString());
+          emit(ShopHomeCategoriesErrorState());
+        });
+  }
+
+
+  void GetFavoritesData(int ProductId)
+  {
+    DioHelper.postdata(
+      url: FAVORITES,
+       data: {
+        'product_id':ProductId
+       },
+       token: token).then((value) {
+        emit(ShopChangeFavoritesSuccessState());
+       }).catchError((onError){
+        emit(ShopChangeFavoritesErrorState());
+       });
+
   }
 }
