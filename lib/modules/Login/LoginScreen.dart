@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop/models/LoginModel.dart';
+import 'package:shop/modules/Layout/ShopHome.dart';
 import 'package:shop/modules/Login/cubit/cubit.dart';
 import 'package:shop/modules/Login/cubit/states.dart';
 import 'package:shop/modules/Register/RegisterScreen.dart';
 import 'package:shop/shared/components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/shared/network/local/cache_helper.dart';
 import 'package:tbib_toast/tbib_toast.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -120,9 +122,12 @@ class LoginScreen extends StatelessWidget {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.SUCCESS);
 
+            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, ShopHome()));    
+
           } else {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.ERROR);
+                CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, ShopHome())); 
           }
         }
       }),

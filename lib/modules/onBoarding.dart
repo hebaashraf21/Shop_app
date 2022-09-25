@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/shared/components/components.dart';
+import 'package:shop/shared/network/local/cache_helper.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class onBoardingModel {
@@ -39,13 +40,25 @@ class onBoarding extends State<onBoardingScreen> {
         title: "3",
         body: "333333333333333333333"),
   ];
+
+  void submit()
+  {
+    CacheHelper.SaveData(key: 'OnBoarding', value: true).then((value) 
+    {
+      if(value)
+      {
+        navigateAndFinish(context, LoginScreen());
+      }
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(actions: [
           TextButton(
               onPressed: () {
-                navigateAndFinish(context, LoginScreen());
+                submit();
               },
               child: Text("SKIP"))
         ]),
@@ -83,7 +96,7 @@ class onBoarding extends State<onBoardingScreen> {
                     FloatingActionButton(
                       onPressed: () {
                         if (isLast) {
-                          navigateAndFinish(context, LoginScreen());
+                          submit();
                         } else {
                           pageController.nextPage(
                               duration: Duration(milliseconds: 500),

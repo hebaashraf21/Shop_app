@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/modules/Layout/ShopHome.dart';
 import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/modules/onBoarding.dart';
 import 'package:shop/shared/network/local/cache_helper.dart';
@@ -15,16 +16,42 @@ void main()async {
   DioHelper.init();
   await CacheHelper.init();
   bool? isDark=CacheHelper.GetData(key: 'isDark');
+  bool? OnBoarding=CacheHelper.GetData(key: 'OnBoarding');
+  var token=CacheHelper.GetData(key: 'token');
+  print(OnBoarding);
 
-  runApp(MyApp(isDark: isDark));
+ late Widget widget;
+
+  if(onBoarding!=null)
+  {
+    if(token!=null)
+    {
+      widget=ShopHome();
+    }
+    else
+    {
+      widget=LoginScreen();
+    }
+
+  }
+  else
+  {
+    widget=onBoardingScreen();
+  }
+
+  runApp(MyApp(
+    isDark: isDark,
+    startWidget:widget,));
 }
 
 class MyApp extends StatelessWidget {
 
   final bool? isDark;
+  final Widget? startWidget;
 
   MyApp({
-    this.isDark,
+     this.isDark,
+     this.startWidget
   });
 
   // This widget is the root of your application.
@@ -37,7 +64,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: onBoardingScreen(),
+      home: ShopHome(),
     );
   }
 }
