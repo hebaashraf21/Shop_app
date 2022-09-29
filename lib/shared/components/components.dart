@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop/styles/colors.dart';
 
+import '../../modules/Layout/cubit/cubit.dart';
 import '../../modules/Login/LoginScreen.dart';
 import '../network/local/cache_helper.dart';
 
@@ -84,8 +85,8 @@ Widget defaultTextFormField({
       controller: controller,
       keyboardType: type,
       obscureText: isPassword,
-      onFieldSubmitted:(s){onSubmit!();} ,
-      onChanged:(s) {onChange!();},
+      //onFieldSubmitted:(s){onSubmit();} ,
+      //onChanged:(s) {onChange!();},
       enabled: isClickable,
       onTap: ontap,
       validator: validate,
@@ -108,7 +109,11 @@ Widget defaultTextFormField({
       ),
     );
 
-
+Widget myDivider() => Container(
+      height: 1,
+      width: double.infinity,
+      color: Colors.grey,
+    );
 
 Widget defaultButton({
   double width = double.infinity,
@@ -152,5 +157,106 @@ Widget defaultTextButton({
   return TextButton(onPressed: (){ontap;}, child: Text("$text"));
 
 }       
+
+
+Widget buildListProduct( model, context, {bool isOldPrice = true}) => Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: SizedBox(
+    height: 120,
+    child: Row(
+      children: [
+        Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image(
+              image: NetworkImage(model!.image),
+              height: 120,
+              width: 120,
+            ),
+            model.discount != 0 && isOldPrice
+                ? Container(
+              color: Colors.red,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 1),
+              child: const Text(
+                'DISCOUNT',
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+              ),
+            )
+                : Container(),
+          ],
+        ),
+        const SizedBox(
+          width: 15,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                model.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.3,
+                    fontWeight: FontWeight.w400),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Text(
+                    model.price.toString(),
+                    style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: defaultColor),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  model.discount !=0 && isOldPrice
+                      ? Text(
+                    model.oldPrice.toString(),
+                    style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough),
+                  )
+                      : Container(),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      ShopCubit.get(context)
+                          .changeFavorites(model.id);
+                    },
+                    icon: ShopCubit.get(context)
+                        .favorites[model.id] ==
+                        true
+                        ? const Icon(
+                      Icons.favorite,
+                      color: defaultColor,
+                    )
+                        : const Icon(
+                      Icons.favorite_border,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+
+
+
 
 

@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:shop/shared/network/local/cache_helper.dart';
 import 'package:tbib_toast/tbib_toast.dart';
 
+import '../../shared/components/constants.dart';
+
 class LoginScreen extends StatelessWidget {
   var FormKey = GlobalKey<FormState>();
 
@@ -122,12 +124,17 @@ class LoginScreen extends StatelessWidget {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.SUCCESS);
 
-            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, HomeScreen()));    
+            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data!.token).then((value) => navigateAndFinish(context, HomeScreen()));    
 
           } else {
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.ERROR);
-                CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, HomeScreen())); 
+                CacheHelper.SaveData(
+                  key: 'token',
+                   value: state.loginmodel.data!.token).then((value) 
+                   {
+                    token=state.loginmodel.data!.token!;
+                    navigateAndFinish(context, HomeScreen());}); 
           }
         }
       }),

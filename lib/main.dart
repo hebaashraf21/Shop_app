@@ -12,8 +12,9 @@ import 'package:shop/styles/themes.dart';
 import 'modules/Layout/cubit/cubit.dart';
 import 'modules/Layout/cubit/states.dart';
 
-void main()async {
+Future<void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
+
   BlocOverrides.runZoned(
     () {},
     blocObserver: MyBlocObserver(),
@@ -21,45 +22,24 @@ void main()async {
   DioHelper.init();
   await CacheHelper.init();
   bool? isDark=CacheHelper.GetData(key: 'isDark');
-  bool? OnBoarding=CacheHelper.GetData(key: 'OnBoarding');
-  CacheHelper.SaveData(key: 'token', value: 'jnefurbrhfecdb');
-  
+  bool? OnBoarding=CacheHelper.GetData(key: 'OnBoarding');  
    token=CacheHelper.GetData(key: 'token');
+   
    print(token);
   print(OnBoarding);
 
- late Widget widget;
 
-  if(onBoarding!=null)
-  {
-    if(token!=null)
-    {
-      widget=HomeScreen();
-    }
-    else
-    {
-      widget=LoginScreen();
-    }
-
-  }
-  else
-  {
-    widget=onBoardingScreen();
-  }
 
   runApp(MyApp(
-    isDark: isDark,
-    startWidget:widget,));
+    isDark: isDark,));
 }
 
 class MyApp extends StatelessWidget {
 
   final bool? isDark;
-  final Widget? startWidget;
 
   MyApp({
      this.isDark,
-     this.startWidget
   });
 
   // This widget is the root of your application.
@@ -67,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create:(context)=> ShopCubit()..GetHomeData()..GetCategoriesData()
+        BlocProvider(create:(context)=> ShopCubit()..GetHomeData()..GetCategoriesData()..getUserData()
 
         ),
       ],
@@ -78,7 +58,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: LightTheme,
-              home: HomeScreen()
+              home: (onBoarding==null)?onBoardingScreen():(token!=null)?LoginScreen():HomeScreen()
               //theme: lightMode(),
               //darkTheme: darkMode(),
               //themeMode: cubit.appMode,
