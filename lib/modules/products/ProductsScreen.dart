@@ -74,7 +74,7 @@ class ProductsScreen extends StatelessWidget
            SizedBox(height:10),
 
            Container(
-            height: 100,
+            height: 120,
             child: ListView.separated(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,

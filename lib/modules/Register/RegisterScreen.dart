@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/modules/Login/cubit/cubit.dart';
 import 'package:shop/modules/Login/cubit/states.dart';
 import 'package:shop/modules/Register/cubit/cubit.dart';
@@ -149,7 +150,7 @@ class RegisterScreen extends StatelessWidget
             showToast(
                 text: state.loginmodel.message.toString(), state: ToastState.SUCCESS);
 
-            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, HomeScreen()));    
+            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, LoginScreen));    
 
           } else {
             showToast(
