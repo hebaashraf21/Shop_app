@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/modules/Layout/HomeScreen.dart';
 import 'package:shop/modules/Login/LoginScreen.dart';
+import 'package:shop/modules/Splash/SplashScreen.dart';
 import 'package:shop/modules/onBoarding.dart';
 import 'package:shop/shared/components/constants.dart';
 import 'package:shop/shared/network/local/cache_helper.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: LightTheme,
-              home: (onBoarding==null)?onBoardingScreen():(token!=null)?LoginScreen():HomeScreen()
+              home: SplashScreen()
               //theme: lightMode(),
               //darkTheme: darkMode(),
               //themeMode: cubit.appMode,

@@ -14,19 +14,21 @@ class SearchCubit extends Cubit
 
   SearchModel? searchModel;
 
-  void Search(String text)
-  {
+  void search({required String? text}){
     emit(SearchLoadingState());
-    DioHelper.postData(url: SEARCH, data: {'text':text},token: token).then(
-      (value) {
-        searchModel=SearchModel.fromJson(value.data);
-        emit(SearchSuccessState());
-      }).catchError((err)
-      {
-        emit(SearchErrorState());
 
-      });
-
+    DioHelper.postData(
+        url: SEARCH,
+        data: {
+          'text' : text
+        }
+    ).then((value) {
+      searchModel = SearchModel.fromJson(value.data);
+      emit(SearchSuccessState());
+    }).catchError((error){
+      emit(SearchErrorState());
+      print(error.toString());
+    });
   }
-
 }
+

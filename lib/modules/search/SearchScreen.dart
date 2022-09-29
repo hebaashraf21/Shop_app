@@ -43,7 +43,7 @@ class SearchScreen extends StatelessWidget {
                         return null;
                       },
                       onFieldSubmitted:(String? text){
-                        SearchCubit.get(context).Search(text!);
+                        SearchCubit.get(context).search(text: text);
                       } ,
                     ),
                     const SizedBox(height: 10,),
@@ -54,7 +54,8 @@ class SearchScreen extends StatelessWidget {
                       Expanded(
                       child: ListView.separated(
                         physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => buildListProduct(SearchCubit.get(context).searchModel!.data!.data![index], context,isOldPrice: false),
+                        itemBuilder: (context, index) => buildListProduct(
+                            SearchCubit.get(context).searchModel!.data!.data![index], context,isOldPrice: false),
                         separatorBuilder: (context, index) => Container(
                           height: .4,
                           width: double.infinity,

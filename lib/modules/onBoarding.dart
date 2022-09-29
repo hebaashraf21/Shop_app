@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/shared/components/components.dart';
 import 'package:shop/shared/network/local/cache_helper.dart';
+import 'package:shop/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class onBoardingModel {
@@ -28,17 +29,17 @@ class onBoarding extends State<onBoardingScreen> {
 
   List<onBoardingModel> onBoardingList = [
     onBoardingModel(
-        image: "assets/images/onboarding1.jpg",
-        title: "1",
-        body: "111111111111111111111"),
+        image: "assets/images/on1.jpg",
+        title: "Salla",
+        body: "Your favorite market in your pocket"),
     onBoardingModel(
-        image: "assets/images/onboarding2.jpg",
-        title: "2",
-        body: "222222222222222222222"),
+        image: "assets/images/on2.jpg",
+        title: "Categories",
+        body: "You will find all your needs"),
     onBoardingModel(
-        image: "assets/images/onboarding3.png",
-        title: "3",
-        body: "333333333333333333333"),
+        image: "assets/images/on3.jpg",
+        title: "Discounts",
+        body: "Up to 50%"),
   ];
 
   void submit()
@@ -60,11 +61,15 @@ class onBoarding extends State<onBoardingScreen> {
               onPressed: () {
                 submit();
               },
-              child: Text("SKIP"))
+              child: Text("SKIP",style: TextStyle(color: defaultColor),))
         ]),
         body: Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
+          
+            padding: EdgeInsets.only(right:10,left: 10,bottom: 70,top: 0),
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                
               children: [
                 Expanded(
                   child: PageView.builder(
@@ -88,12 +93,23 @@ class onBoarding extends State<onBoardingScreen> {
                 Row(
                   children: [
                     SmoothPageIndicator(
+                      
                         controller: pageController, // PageController
                         count: 3,
-                        effect: WormEffect(), // your preferred effect
+                        effect: SlideEffect(activeDotColor: defaultColor,), // your preferred effect
                         onDotClicked: (index) {}),
                     Spacer(),
-                    FloatingActionButton(
+                    
+                  ],
+                ),
+              ],
+            ),
+            )),
+
+            floatingActionButton:FloatingActionButton(
+                      
+                      
+                      
                       onPressed: () {
                         if (isLast) {
                           submit();
@@ -103,11 +119,11 @@ class onBoarding extends State<onBoardingScreen> {
                               curve: Curves.easeInCirc);
                         }
                       },
+                      child: Icon(Icons.arrow_forward_ios_outlined),
+                      backgroundColor:defaultColor,
+                      
                     ),
-                  ],
-                ),
-              ],
-            )));
+            );
     throw UnimplementedError();
   }
 

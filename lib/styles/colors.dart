@@ -1,3 +1,4 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-const defaultColor=Colors.blue;
+ Color defaultColor=HexColor("#6C3483");
