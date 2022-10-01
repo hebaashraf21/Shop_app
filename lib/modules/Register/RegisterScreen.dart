@@ -101,11 +101,11 @@ class RegisterScreen extends StatelessWidget
                                 },
                                 onSubmit: () {
                                   if (FormKey.currentState!.validate()) {
-                                    cubit.UserRegister(
-                                        phone:PhoneController.text,
-                                        name:NameController.text,
-                                        email: EmailController.text,
-                                        password: PasswordController.text);
+                                    // cubit.UserRegister(
+                                    //     phone:PhoneController.text,
+                                    //     name:NameController.text,
+                                    //     email: EmailController.text,
+                                    //     password: PasswordController.text,context: context);
                                   }
                                 },
                                 label: "Password",
@@ -126,7 +126,8 @@ class RegisterScreen extends StatelessWidget
                                             name:NameController.text,
                                             email: EmailController.text,
                                             password: PasswordController.text,
-                                            phone: PhoneController.text
+                                            phone: PhoneController.text,
+                                            context: context
 
                                             );
                                       }
@@ -145,23 +146,23 @@ class RegisterScreen extends StatelessWidget
       }, listener: (context,state)
       {
         if (state is ShopRegisterSuccessState) {
-          if (state.loginmodel.status!) {
-
-            showToast(
-                text: state.loginmodel.message.toString(), state: ToastState.SUCCESS);
-
-            CacheHelper.SaveData(key: 'token', value: state.loginmodel.data?.token).then((value) => navigateAndFinish(context, LoginScreen));    
-
-          } else {
-            showToast(
-                text: state.loginmodel.message.toString(), state: ToastState.ERROR);
-                CacheHelper.SaveData(
-                  key: 'token',
-                   value: state.loginmodel.data?.token).then((value) 
-                   {
-                    token=state.loginmodel.data!.token!;
-                    navigateAndFinish(context, HomeScreen());}); 
-          }
+            if (state.loginmodel.status!) {
+              print(state.loginmodel.message);
+              print(state.loginmodel.data!.token);
+              CacheHelper.SaveData(
+                key: 'token',
+                value: state.loginmodel.data!.token,
+              ).then((value) {
+                token = state.loginmodel.data!.token;
+                navigateAndFinish(context, HomeScreen());
+              });
+            } else {
+              print(state.loginmodel.message);
+              showToast(
+                text: state.loginmodel.message!,
+                state: ToastState.ERROR,
+              );
+            }
         }
       }), );
     throw UnimplementedError();

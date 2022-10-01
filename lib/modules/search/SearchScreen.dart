@@ -18,7 +18,10 @@ class SearchScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SearchCubit(),
       child: BlocConsumer<ShopCubit,ShopStates>(
-        listener: (context , state) {},
+        listener: (context , state) 
+        {
+        
+        },
         builder: (context , state) {
           return Scaffold(
             appBar: AppBar(),
@@ -47,8 +50,9 @@ class SearchScreen extends StatelessWidget {
                       } ,
                     ),
                     const SizedBox(height: 10,),
-                    if(state is SearchLoadingState)
-                      const LinearProgressIndicator(),
+                      if(state is SearchLoadingState)
+              const LinearProgressIndicator(),
+                    
                     const SizedBox(height: 10,),
                     if(state is SearchSuccessState)
                       Expanded(

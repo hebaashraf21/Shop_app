@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop/models/LoginModel.dart';
+import 'package:shop/modules/Login/LoginScreen.dart';
 import 'package:shop/modules/Register/cubit/states.dart';
+import 'package:shop/shared/components/components.dart';
 import 'package:shop/shared/network/local/cache_helper.dart';
 import 'package:shop/shared/network/remote/dio_helper.dart';
 import '../../../shared/network/end_points.dart';
@@ -29,7 +31,8 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates>
     required String email,
     required String password,
     required String name,
-    required String phone
+    required String phone,
+    required BuildContext context
   })
   {
     emit(ShopRegisterLoadingState());
@@ -41,8 +44,10 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates>
         'password':password,
         'phone':phone
       }).then((value) {
+        print("success");
         loginmodel=LoginModel.fromJson(value.data);
           CacheHelper.SaveData(key: 'token', value: loginmodel!.data!.token);
+          navigateAndFinish(context, LoginScreen());
 
         // print(loginmodel!.message);
         // print(loginmodel!.status);
@@ -50,6 +55,7 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates>
         //print(value.data['message']);
         emit(ShopRegisterSuccessState(loginmodel!));
       }).catchError((onError){
+        print("error");
         emit(ShopRegisterErrorState(onError.toString()));
       });
   }

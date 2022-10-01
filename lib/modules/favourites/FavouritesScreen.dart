@@ -39,7 +39,7 @@ class FavouritesScreen extends StatelessWidget
               ),
             Expanded(
               child: ConditionalBuilder(
-                condition: state is! ShopHomeGetFavoritesLoadingState,
+                condition: !ShopCubit.get(context).favoritesModel!.data!.data!.isEmpty,
                 builder: (context) => ListView.separated(
                   itemBuilder: (context, index) => buildListProduct(
                       ShopCubit.get(context).favoritesModel!
@@ -54,7 +54,8 @@ class FavouritesScreen extends StatelessWidget
                       .length,
                 ),
                 fallback: (context) =>
-                    const Center(child: CircularProgressIndicator()),
+                   
+                   SizedBox(height:10),
               ),
             ),
           ],

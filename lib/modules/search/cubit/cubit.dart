@@ -20,10 +20,11 @@ class SearchCubit extends Cubit
     DioHelper.postData(
         url: SEARCH,
         data: {
-          'text' : text
+          'text' : 'product'
         }
     ).then((value) {
       searchModel = SearchModel.fromJson(value.data);
+      print(searchModel!.data!.data![0].name);
       emit(SearchSuccessState());
     }).catchError((error){
       emit(SearchErrorState());
