@@ -37,7 +37,9 @@ it was a good practice on dealing with APIs.
 ## ScreenShots from the app: <a name = "screen-shots"></a>
 ![pic1 (3)](https://user-images.githubusercontent.com/90224487/193424564-2ffed5eb-2644-4cd8-a528-7f2778ce0076.jpg)
 
-![pic1 (2)](https://user-images.githubusercontent.com/90224487/193424429-29bb4d9d-6f77-40db-82be-6fdbf0697ca6.jpg)
+![pic1 (4)](https://user-images.githubusercontent.com/90224487/193424889-93258078-be5f-452e-9fa1-6ae890aca11a.jpg)
+
+![pic1 (5)](https://user-images.githubusercontent.com/90224487/193424959-c2447ddf-bc5e-4d38-9bef-32dacf72353c.jpg)
 
 
 ## Contributors <a name = "Contributors"></a>
