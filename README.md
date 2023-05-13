@@ -9,7 +9,7 @@
 
 
 ## About <a name = "about"></a>
-- mobile app created in Flutter based on BLoC state management.
+- Shop app where you can explore products and buy them.
 
 ## Packages used: <a name="packages"></a>
 
