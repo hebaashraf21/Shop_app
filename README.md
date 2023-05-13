@@ -2,18 +2,11 @@
 
 ## 📝 Table of Contents
 
-- [Note](#note)
 - [About](#about)
 - [Packages used](#packages)
 - [ScreenShots from the app](#screen-shots)
 - [Contributors](#Contributors)
 
-## Note <a name = "note"></a>
- This project has too many bugs (features).
- 
-![yes-very-sad-anyway-1](https://user-images.githubusercontent.com/90224487/193424353-ea6cea27-ae8b-40e9-b0d1-d71cca371702.jpg)
-
-it was a good practice on dealing with APIs.
 
 ## About <a name = "about"></a>
 - mobile app created in Flutter based on BLoC state management.
